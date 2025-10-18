@@ -23,8 +23,22 @@ max_worker_lifetime = 3600
 max_worker_lifetime_jitter = 300
 
 # Logging
-accesslog = "logs/access.log"
-errorlog = "logs/error.log"
+import os
+import logging
+
+# Ensure logs directory exists
+os.makedirs("logs", exist_ok=True)
+
+# Use stdout/stderr for cloud deployments, files for local/server deployments
+if os.getenv('RENDER') or os.getenv('HEROKU_APP_NAME'):
+    # Cloud deployment - use stdout/stderr
+    accesslog = "-"  # stdout
+    errorlog = "-"   # stderr
+else:
+    # Local/server deployment - use files
+    accesslog = "logs/access.log"
+    errorlog = "logs/error.log"
+
 loglevel = "info"
 access_log_format = '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s" %(T)s'
 
@@ -33,7 +47,10 @@ proc_name = "fundchain_backend"
 
 # Server mechanics
 daemon = False
-pidfile = "logs/gunicorn.pid"
+
+# Use pidfile only for local deployment
+if not (os.getenv('RENDER') or os.getenv('HEROKU_APP_NAME')):
+    pidfile = "logs/gunicorn.pid"
 user = None
 group = None
 tmp_upload_dir = None
