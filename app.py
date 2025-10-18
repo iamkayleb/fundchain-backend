@@ -81,6 +81,27 @@ def create_app(config: dict = None):
                 resp.headers['Vary'] = 'Origin'
             return resp
 
+    # Root endpoint
+    @app.route('/')
+    def root():
+        """Root endpoint with API information"""
+        from flask import jsonify
+        return jsonify({
+            'message': 'FundChain Backend API',
+            'version': '1.0.0',
+            'status': 'running',
+            'documentation': '/api',
+            'health_check': '/health',
+            'endpoints': {
+                'authentication': '/api/login, /api/signup, /api/logout',
+                'campaigns': '/api/campaigns',
+                'donations': '/api/campaigns/<id>/donate',
+                'admin': '/api/admin/*',
+                'verification': '/api/student/verify-request',
+                'institution': '/api/institution/*'
+            }
+        })
+
     # Health check endpoint for monitoring and deployment
     @app.route('/health')
     def health_check():
@@ -105,6 +126,53 @@ def create_app(config: dict = None):
                 'error': str(e),
                 'service': 'fundchain-backend'
             }), 500
+
+    # API info endpoint
+    @app.route('/api')
+    def api_info():
+        """API information and available endpoints"""
+        from flask import jsonify
+        return jsonify({
+            'name': 'FundChain Educational Fundraising API',
+            'version': '1.0.0',
+            'description': 'Blockchain-enabled educational fundraising platform with role-based access control',
+            'documentation': 'https://github.com/iamkayleb/fundchain-backend/blob/main/README.md',
+            'endpoints': {
+                'Authentication': {
+                    'POST /api/signup': 'User registration',
+                    'POST /api/login': 'User authentication',
+                    'POST /api/logout': 'User logout',
+                    'GET /api/me': 'Get current user profile'
+                },
+                'Campaigns': {
+                    'GET /api/campaigns': 'List all active campaigns',
+                    'POST /api/campaigns': 'Create new campaign (students only)',
+                    'GET /api/campaigns/<id>': 'Get campaign details'
+                },
+                'Donations': {
+                    'POST /api/campaigns/<id>/donate': 'Donate to campaign'
+                },
+                'Admin': {
+                    'GET /api/admin/verification-requests': 'Get pending verifications',
+                    'POST /api/admin/verify/student/<id>/approve': 'Approve student verification',
+                    'POST /api/admin/verify/student/<id>/reject': 'Reject student verification',
+                    'GET /api/admin/campaigns': 'Get pending campaigns',
+                    'GET /api/admin/ledger': 'Explore blockchain ledger'
+                },
+                'Institution': {
+                    'POST /api/institution/register': 'Register institution'
+                }
+            },
+            'roles': ['student', 'donor', 'institution', 'admin'],
+            'features': [
+                'JWT Authentication',
+                'Role-based Access Control',
+                'Blockchain Ledger',
+                'Campaign Management',
+                'Verification Workflows',
+                'Fraud Detection'
+            ]
+        })
 
     # register blueprints
     from routes.auth import bp as auth_bp
