@@ -31,6 +31,11 @@ def create_app(config: dict = None):
         "http://localhost:3001",
         "http://localhost:3002",
         "http://localhost:3003",
+        "https://fundchain-frontend.vercel.app",
+        "https://fundchain-frontend-*.vercel.app",
+        "https://*.vercel.app",
+        "https://fundchain.netlify.app",
+        "https://*.netlify.app",
     ]
     cors_env = os.environ.get("CORS_ORIGINS")
     if cors_env:
