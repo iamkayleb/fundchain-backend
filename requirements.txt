@@ -1,16 +1,25 @@
+# Core Flask dependencies
 Flask==3.0.3
 Flask-SQLAlchemy==3.1.1
 Flask-JWT-Extended==4.6.0
 Flask-CORS==4.0.1
 Werkzeug==3.0.3
-SQLAlchemy==2.0.30
-python-dotenv==1.0.1
+
+# Database - Use a version compatible with Python 3.11
+SQLAlchemy>=2.0.23,<2.1.0
+
+# Production server
 gunicorn==21.2.0
+
+# Database adapter for PostgreSQL
 psycopg2-binary==2.9.9
 
+# Environment management
+python-dotenv==1.0.1
+
 # Testing dependencies (optional for production)
-pytest==8.1.1
-pytest-cov==5.0.0
+pytest==7.4.4
+pytest-cov==4.0.0
 
 # Development dependencies (optional for production)
 python-decouple==3.8
