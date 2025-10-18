@@ -1,18 +1,18 @@
 """Small runner to start the Flask app during development.
 
 Run with:
-  python backend/run.py
+  python run.py
 """
 import os
 import sys
 
-# Ensure project root is on sys.path so `import backend` works when running this file
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-if ROOT not in sys.path:
-  sys.path.insert(0, ROOT)
+# Add current directory to sys.path for imports
+current_dir = os.path.dirname(os.path.abspath(__file__))
+if current_dir not in sys.path:
+    sys.path.insert(0, current_dir)
 
-from backend.app import create_app
-from backend.models import db
+from app import create_app
+from models import db
 
 # Create app instance for WSGI servers (production)
 app = create_app()

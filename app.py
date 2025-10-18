@@ -3,7 +3,7 @@ from flask import Flask
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 
-from backend.models import db
+from models import db
 
 
 def create_app(config: dict = None):
@@ -81,13 +81,38 @@ def create_app(config: dict = None):
                 resp.headers['Vary'] = 'Origin'
             return resp
 
+    # Health check endpoint for monitoring and deployment
+    @app.route('/health')
+    def health_check():
+        """Health check endpoint for monitoring"""
+        try:
+            # Test database connection
+            db.session.execute('SELECT 1')
+            
+            from flask import jsonify
+            from datetime import datetime
+            
+            return jsonify({
+                'status': 'healthy',
+                'timestamp': datetime.utcnow().isoformat(),
+                'version': '1.0.0',
+                'service': 'fundchain-backend'
+            })
+        except Exception as e:
+            from flask import jsonify
+            return jsonify({
+                'status': 'unhealthy',
+                'error': str(e),
+                'service': 'fundchain-backend'
+            }), 500
+
     # register blueprints
-    from backend.routes.auth import bp as auth_bp
-    from backend.routes.admin import bp as admin_bp
-    from backend.routes.verification import bp as verification_bp
-    from backend.routes.institution import bp as institution_bp
-    from backend.routes.campaigns import bp as campaigns_bp
-    from backend.routes.donations import bp as donations_bp
+    from routes.auth import bp as auth_bp
+    from routes.admin import bp as admin_bp
+    from routes.verification import bp as verification_bp
+    from routes.institution import bp as institution_bp
+    from routes.campaigns import bp as campaigns_bp
+    from routes.donations import bp as donations_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(admin_bp)

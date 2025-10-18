@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: fundchain-backend
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT run:app
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: fundchain-db
+          property: connectionString
+    healthCheckPath: /health
+    
+databases:
+  - name: fundchain-db
+    databaseName: fundchain
+    user: fundchain_user
+    region: oregon
+    plan: free
