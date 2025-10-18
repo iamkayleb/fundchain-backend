@@ -14,10 +14,10 @@ if ROOT not in sys.path:
 from backend.app import create_app
 from backend.models import db
 
+# Create app instance for WSGI servers (production)
+app = create_app()
 
 def main():
-  app = create_app()
-
   # Ensure tables exist in the default SQLite for development
   with app.app_context():
     try:
