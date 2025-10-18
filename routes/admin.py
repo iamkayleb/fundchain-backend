@@ -1,9 +1,9 @@
 """Admin-only endpoints: ledger explorer, verification queue, campaign approvals.
 """
 from flask import Blueprint, request, jsonify
-from backend.models import Ledger, VerificationRequest, VerificationStatus, Campaign, CampaignStatus
-from backend.routes.auth import requires_role
-from backend.routes.donations import finalize_campaign as donations_finalize
+from models import Ledger, VerificationRequest, VerificationStatus, Campaign, CampaignStatus
+from routes.auth import requires_role
+from routes.donations import finalize_campaign as donations_finalize
 
 bp = Blueprint("admin", __name__, url_prefix="/api/admin")
 

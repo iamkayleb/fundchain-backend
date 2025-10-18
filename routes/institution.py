@@ -9,7 +9,7 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from werkzeug.security import generate_password_hash
 
-from backend.models import (
+from models import (
     db,
     User,
     InstitutionProfile,
@@ -21,7 +21,7 @@ from backend.models import (
     Notification,
     NotificationType,
 )
-from backend.routes.auth import requires_role
+from routes.auth import requires_role
 
 bp = Blueprint("institution", __name__, url_prefix="/api")
 

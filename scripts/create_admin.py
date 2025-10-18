@@ -14,8 +14,8 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 from werkzeug.security import generate_password_hash
-from backend.app import create_app
-from backend.models import db, User, RoleEnum
+from app import create_app
+from models import db, User, RoleEnum
 
 def create_admin_user():
     """Interactive script to create an admin user."""

@@ -21,7 +21,7 @@ from flask_jwt_extended import (
     get_jwt_identity,
 )
 
-from backend.models import db, User, InstitutionProfile, RoleEnum
+from models import db, User, InstitutionProfile, RoleEnum
 
 
 bp = Blueprint("auth", __name__, url_prefix="/api")

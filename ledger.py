@@ -11,7 +11,7 @@ import json
 
 from sqlalchemy import event
 
-from backend.models import db, Ledger, TxTypeEnum, compute_ledger_hash
+from models import db, Ledger, TxTypeEnum, compute_ledger_hash
 
 
 def _canonical_payload(payload: dict) -> str:

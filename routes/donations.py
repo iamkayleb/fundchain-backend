@@ -11,7 +11,7 @@ from decimal import Decimal
 from flask import Blueprint, request, jsonify, current_app
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from backend.models import (
+from models import (
     db,
     Campaign,
     Contribution,
@@ -21,7 +21,7 @@ from backend.models import (
     NotificationType,
     User,
 )
-from backend.routes.auth import requires_role
+from routes.auth import requires_role
 
 bp = Blueprint("donations", __name__, url_prefix="/api")
 logger = logging.getLogger(__name__)

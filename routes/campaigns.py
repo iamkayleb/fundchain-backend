@@ -3,7 +3,7 @@ from decimal import Decimal
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from backend.models import (
+from models import (
     db,
     Campaign,
     CampaignStatus,
@@ -12,7 +12,7 @@ from backend.models import (
     NotificationType,
     User,
 )
-from backend.routes.auth import requires_role
+from routes.auth import requires_role
 
 
 bp = Blueprint("campaigns", __name__, url_prefix="/api")
